@@ -10,7 +10,7 @@ app:
     tty: true
 
 dbserver:
-    build: ./mysql
+    build: ./dbserver
     ports:
      - 3306:3306
     hostname: dbserver

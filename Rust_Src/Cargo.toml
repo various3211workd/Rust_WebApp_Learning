@@ -3,5 +3,8 @@ name = "iron_learning"
 version = "0.1.0"
 
 [dependencies]
-iron = "0.6.0"
-router = "0.6.0"
+iron = "*"
+router = "*"
+
+[dependencies.bodyparser]
+git = "https://github.com/iron/body-parser.git"
