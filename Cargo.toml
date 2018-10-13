@@ -5,6 +5,6 @@ version = "0.1.0"
 [dependencies]
 iron = "*"
 router = "*"
-
-[dependencies.bodyparser]
-git = "https://github.com/iron/body-parser.git"
+rand = "*"
+params = "*"
+rustc-serialize = "*"
