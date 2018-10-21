@@ -22,7 +22,7 @@ pub struct Result {
 
 fn main() {
     let mut router = Router::new();
-    router.get("dice?run", dice_run, "GET");
+    router.get("dice_run", dice_run, "GET");
     
     Iron::new(router).http("localhost:3000").unwrap();
 }
@@ -30,22 +30,24 @@ fn main() {
 fn dice_run(req: &mut Request) -> IronResult<Response> {
     let map = req.get_ref::<Params>().unwrap();
 
-    match map.find(&["dice"]) {
-        Some(&Value::String(ref dice)) => {
-            let dice: i32 = dice.parse().unwrap();
-            //let number: i32 = number.parse().unwrap();
-            let number: i32 = 1;
-            let result = Result {
-                dice: dice,
-                number: number,
-                result: roll(dice, number),
-                //text: "ather text".to_string(),
-            };
-            let payload = json::encode(&result).unwrap();
-            Ok(Response::with((ContentType::json().0, status::Ok, payload)))
-        },
-        _ => Ok(Response::with((status::Ok, "Hello world")))
+    let mut dice: i32 = 0;
+    let mut number: i32 = 0;
+    if let Some(&Value::String(ref d)) = map.find(&["dice"]) {
+        dice = d.parse().unwrap();
     }
+    if let Some(&Value::String(ref num)) = map.find(&["number"]) {
+        number = num.parse().unwrap();
+    }
+    println!("dice {}, number{}", dice, number);
+
+    let result = Result {
+        dice: dice,
+        number: number,
+        result: roll(dice, number),
+    };
+    let payload = json::encode(&result).unwrap();
+    Ok(Response::with((ContentType::json().0, status::Ok, payload)))
+
 }
 
 fn roll(dice: i32, number: i32) -> i32 {
